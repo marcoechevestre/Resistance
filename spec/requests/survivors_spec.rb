@@ -58,8 +58,7 @@ RSpec.describe 'ZSSN API', type: :request do
       before { post '/survivors', params: valid_attributes}
 
       it 'creates a survivor' do
-        expect(json['status'].to eq(0)
-        expect(json['reports']).not_to eq(3)
+        expect(json['status'].to eq(0))
       end
 
       it 'returns status code 201' do
@@ -100,3 +99,4 @@ describe 'PUT /survivors/:id' do
 
 
 end
+
