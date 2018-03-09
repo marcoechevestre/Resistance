@@ -58,10 +58,44 @@ RSpec.describe 'ZSSN API', type: :request do
       before { post '/survivors', params: valid_attributes}
 
       it 'creates a survivor' do
-        expect(json['name'].to eq
+        expect(json['status'].to eq(0)
+        expect(json['reports']).not_to eq(3)
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
       end
     end
 
+    context 'when the request is invalid' do
+      before { post '/survivors', params: { title: 'Foobar' } }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: Created by can't be blank/)
+      end
+    end
+  end
+
+# Test suite for PUT /survivors/:id
+describe 'PUT /survivors/:id' do
+    let(:valid_attributes) { { name: 'Carlos' } }
+
+    context 'when the record exists' do
+      before { put "/survivors/#{survivor_id}", params: valid_attributes }
+
+      it 'updates the record' do
+        expect(response.body).to be_empty
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
   end
 
 
